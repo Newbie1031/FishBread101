@@ -4,7 +4,6 @@ import com.fishbread101.common.jwt.JwtUtil;
 
 import com.fishbread101.dto.SignInRequestDto;
 import com.fishbread101.dto.SignUpRequestDto;
-import com.fishbread101.dto.UserResponseDto;
 import com.fishbread101.entity.User;
 import com.fishbread101.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -55,5 +54,4 @@ public class AuthServiceImpl implements AuthService {
             throw new IllegalArgumentException("비밀번호 불일치");
         }
     }
-
 }
