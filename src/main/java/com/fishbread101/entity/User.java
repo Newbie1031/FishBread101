@@ -1,7 +1,10 @@
 package com.fishbread101.entity;
 
 import com.fishbread101.common.TimeStamp;
+import com.fishbread101.dto.SignUpRequestDto;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -10,6 +13,7 @@ import java.util.List;
 @Entity
 @Getter
 @Table(name = "users")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends TimeStamp {
 
     @Id
@@ -39,4 +43,13 @@ public class User extends TimeStamp {
     @OneToMany(mappedBy = "tutor", cascade = CascadeType.REMOVE)
     private List<Lecture> myLectures = new ArrayList<>(); // 튜터일때, 자신이 생성한 강의들
 
+    public User(String loginId, String encodedPw) {
+        this.loginId = loginId;
+        this.loginPw = encodedPw;
+        this.nickname = "";
+        this.image = "";
+        this.description = "";
+        this.userRole = UserRole.TUTEE;
+        appliedTutor = false;
+    }
 }
