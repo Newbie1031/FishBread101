@@ -80,24 +80,24 @@ public class TutorController {
             @PathVariable Long lectureId,
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-        lectureService.delete(lectureId, userDetails);
+        lectureService.deleteLecture(lectureId, userDetails);
     }
 
     // 8. 수강 신청 승인
     @PostMapping("/apply/{applyId}")
-    public void allowEnrolment(
+    public void allowApply(
             @PathVariable Long applyId,
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-        applyService.refuseApply(applyId);
+        applyService.allowApply(applyId);
     }
 
     // 9. 수강 신청 거절
     @DeleteMapping("/apply/{applyId}")
-    public void refuseEnrolment(
+    public void refuseApply(
             @PathVariable Long applyId
     ) {
-        applyService.acceptApply(applyId);
+        applyService.refuseApply(applyId);
     }
 
 }
