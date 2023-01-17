@@ -1,4 +1,4 @@
-package com.fishbread101.user.entity;
+package com.fishbread101.entity;
 
 public enum UserRole {
 

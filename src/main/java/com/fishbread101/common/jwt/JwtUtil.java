@@ -1,6 +1,6 @@
 package com.fishbread101.common.jwt;
 
-import com.fishbread101.user.entity.UserRole;
+import com.fishbread101.entity.UserRole;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;

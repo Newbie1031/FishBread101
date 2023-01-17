@@ -1,7 +1,7 @@
 package com.fishbread101.common.security;
 
-import com.fishbread101.user.entity.User;
-import com.fishbread101.user.entity.UserRole;
+import com.fishbread101.entity.User;
+import com.fishbread101.entity.UserRole;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

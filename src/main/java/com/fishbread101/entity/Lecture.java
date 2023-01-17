@@ -1,11 +1,9 @@
-package com.fishbread101.lecture.entity;
+package com.fishbread101.entity;
 
-import com.fishbread101.apply.entity.Apply;
-import com.fishbread101.enrolment.entity.Enrolment;
-import com.fishbread101.user.entity.User;
 import lombok.Getter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -28,8 +26,8 @@ public class Lecture {
     private Integer capacity;
 
     @OneToMany(mappedBy = "lecture", cascade = CascadeType.REMOVE)
-    private List<Enrolment> enrolmentList;
+    private List<Enrolment> enrolmentList = new ArrayList<>();
 
     @OneToMany(mappedBy = "lecture", cascade = CascadeType.REMOVE)
-    private List<Apply> applyList;
+    private List<Apply> applyList = new ArrayList<>();
 }

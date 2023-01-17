@@ -1,7 +1,7 @@
 package com.fishbread101.common.security;
 
-import com.fishbread101.user.entity.User;
-import com.fishbread101.user.repository.UserRepository;
+import com.fishbread101.entity.User;
+import com.fishbread101.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

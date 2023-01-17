@@ -1,7 +1,5 @@
-package com.fishbread101.apply.entity;
+package com.fishbread101.entity;
 
-import com.fishbread101.lecture.entity.Lecture;
-import com.fishbread101.user.entity.User;
 import lombok.Getter;
 
 import javax.persistence.*;

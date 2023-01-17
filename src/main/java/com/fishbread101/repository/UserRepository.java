@@ -1,6 +1,6 @@
-package com.fishbread101.user.repository;
+package com.fishbread101.repository;
 
-import com.fishbread101.user.entity.User;
+import com.fishbread101.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
