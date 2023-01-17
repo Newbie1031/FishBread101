@@ -6,7 +6,7 @@ public interface ApplyService {
 
     void refuseApply(Long applyId);
 
-    void acceptApply(Long id);
+    void allowApply(Long id);
 
     void applyLecture(Long id, User user);
 
