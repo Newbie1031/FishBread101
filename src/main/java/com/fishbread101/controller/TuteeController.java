@@ -24,15 +24,17 @@ public class TuteeController {
     private final LectureService lectureService;
     private final ApplyService applyService;
 
+    // gwanho1234 -> POST => http://localhost:8080/api/tutee/profile
     //학생 프로필 수정
     @PostMapping("/profile")
     public void modifyProfile(
-            @RequestBody ProfileModifyRequestDto profileModifyRequestDto,
+            @RequestBody ProfileModifyRequestDto profileModifyRequestDto, // 유저가 어떤 정보 변경을 원하는지
             @AuthenticationPrincipal UserDetailsImpl userDetails // 어떤 유저가 요청을했는지
     ) {
-        userService.modifyProfile(profileModifyRequestDto, userDetails.getUser());
+        userService.modifyProfile(profileModifyRequestDto, userDetails.getUser()); // 변경 내용 + 어떤 유저가 요청
     }
 
+    // gwanho1234 => GET => http://localhost:8080/api/tutee/profile
     //학생 프로필 조회
     @GetMapping("/profile")
     public ProfileResponseDto getProfile(

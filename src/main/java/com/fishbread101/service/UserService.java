@@ -10,7 +10,7 @@ public interface UserService {
 
     ProfileResponseDto getProfile(User user);
 
-    ProfileResponseDto modifyProfile(ProfileModifyRequestDto profileModifyRequestDto, User user);
+    void modifyProfile(ProfileModifyRequestDto profileModifyRequestDto, User user);
 
     List<UserResponseDto> getTuteeList();
 
@@ -26,4 +26,5 @@ public interface UserService {
 
     UserResponseDto getTutorProfile(Long tutorId);
 
+    List<LectureResponseDto> getAllLectures();
 }
