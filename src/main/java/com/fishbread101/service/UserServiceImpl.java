@@ -1,11 +1,19 @@
 package com.fishbread101.service;
 
+<<<<<<< HEAD
 import com.fishbread101.dto.LectureResponseDto;
 import com.fishbread101.dto.ProfileModifyRequestDto;
 import com.fishbread101.dto.ProfileResponseDto;
 import com.fishbread101.entity.Lecture;
 import com.fishbread101.entity.User;
 import com.fishbread101.repository.LectureRepository;
+=======
+import com.fishbread101.dto.ProfileModifyRequestDto;
+import com.fishbread101.dto.ProfileResponseDto;
+import com.fishbread101.dto.UserResponseDto;
+import com.fishbread101.entity.User;
+import com.fishbread101.entity.UserRole;
+>>>>>>> c2ce1a3c2b839204bdc4df3e4b509acb21c0f300
 import com.fishbread101.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
@@ -22,23 +30,15 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final LectureRepository lectureRepository;
 
+    //튜티 프로필 수정
     @Transactional
     @Override
     public void modifyProfile (ProfileModifyRequestDto profileModifyRequestDto, User user){
-//        User profile = userRepository.findByProfileId();
-         // 여기 안에 어떤 유저가 정보 변경 요청을 원했는지 나와있습니다.
-//        if (profile.getLoginId().equals(user.getLoginId())) {
-//            profile.modify(profileModifyRequestDto);
-//        } else {
-//            throw new IllegalAccessException("게시물을 삭제할 수 없습니다.");
-//        }
-        // 패스워드나 그런 검증을 할 필요가 없습니다. 왜냐하면 - 이미 토큰을 바탕으로 어떤 유저가 정보를 요청했는지 알고있어서
-        // 그 요청을 한 유저의 정보를 바꿔주기만 하면 돼요.
         user.modify(profileModifyRequestDto);
         userRepository.save(user);
-        // Postman => 200 OK 싸인 -> 정상종료가 되지않으면 500error , 400 error
     }
 
+    //튜티 프로필 조회(개인 프로필)
     @Transactional
     @Override
     public ProfileResponseDto getProfile(User user) {
@@ -46,6 +46,7 @@ public class UserServiceImpl implements UserService {
         return result;
     }
 
+    //튜티가 신청한 모든 강의 조회
     @Transactional(readOnly = true)
     public List<LectureResponseDto> getAllLectures() {
         List<LectureResponseDto> lectureResponseDtoList = new ArrayList<>();
@@ -58,6 +59,72 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    
+    // 전체 튜티 목록 조회
+    @Override
+    public List<UserResponseDto> getTuteeList() {
+        List<User> list = userRepository.findByUserRole(UserRole.TUTEE);
+        List<UserResponseDto> userResponseDtoList = new ArrayList<>();
+        for (User user : list) {
+            userResponseDtoList.add(new UserResponseDto(user));
+        }
+        return userResponseDtoList;
+    }
 
+//    전체 튜터 목록 조회
+    @Override
+    public List<UserResponseDto> getAllTutors() {
+        List<User> list = userRepository.findByUserRole(UserRole.TUTOR);
+        List<UserResponseDto> userResponseDtoList = new ArrayList<>();
+        for (User user : list) {
+            userResponseDtoList.add(new UserResponseDto(user));
+        }
+        return userResponseDtoList;
+    }
 
+//    전체 튜터 신청 목록 조회
+    @Override
+    public List<UserResponseDto> getPromotionList() {
+        List<User> list = userRepository.findByAppliedTutor(true);
+        List<UserResponseDto> userResponseDtoList = new ArrayList<>();
+        for (User user : list) {
+            userResponseDtoList.add(new UserResponseDto(user));
+        }
+        return userResponseDtoList;
+    }
+
+    @Override
+    public void registerPromotion(User user) {
+    }
+
+//    튜터 신청 승인
+    @Override
+    @Transactional
+    public void allowPromotion(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow();
+        if (user.getAppliedTutor().equals(true)) {
+            user.changeRole(UserRole.TUTOR);
+            user.changeApplyStatus(false);
+        } else {
+            throw new IllegalArgumentException("신청되지 않은 사용자입니다.");
+        }
+    }
+
+//    튜터 신청 거부
+    @Override
+    @Transactional
+    public void refusePromotion(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow();
+        if (user.getAppliedTutor().equals(true)) {
+            user.changeApplyStatus(false);
+        } else {
+            throw new IllegalArgumentException("신청되지 않은 사용자입니다.");
+        }
+    }
+
+    @Override
+    public UserResponseDto getTutorProfile(Long tutorId) {
+        return null;
+    }
+>>>>>>> c2ce1a3c2b839204bdc4df3e4b509acb21c0f300
 }
