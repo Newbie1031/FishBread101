@@ -48,7 +48,7 @@ public class TutorController {
         return lectureService.createLecture(lectureRequestDto, userDetails.getUser());
     }
 
-    // 6. 강의 수정
+    // 6. 자신이 등록한 강의 수정
     @PatchMapping("/lectures/{lectureId}")
     public LectureResponseDto updateLecture(
             @PathVariable Long lectureId,
@@ -66,7 +66,7 @@ public class TutorController {
         return lectureService.getMyLectures(userDetails.getUser());
     }
 
-    // 4. 신청 목록 조회
+    // 4. 자신이 등록한 강의에 신청한 튜티 조회
     @GetMapping("/enrolments/{lectureId}")
     public List<EnrolmentResponseDto> getMyLecturesEnrolment(
             @PathVariable Long lectureId
@@ -74,7 +74,7 @@ public class TutorController {
         return enrolmentService.getMyLecturesEnrolment(lectureId);
     }
 
-    // 7. 강의 삭제
+    // 7. 자신이 등록한 강의 삭제
     @DeleteMapping("/lectures/{lectureId}")
     public void deleteLecture(
             @PathVariable Long lectureId,

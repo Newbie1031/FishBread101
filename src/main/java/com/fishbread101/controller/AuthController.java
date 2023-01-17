@@ -4,6 +4,7 @@ import com.fishbread101.common.security.UserDetailsImpl;
 import com.fishbread101.dto.SignInRequestDto;
 import com.fishbread101.dto.SignUpRequestDto;
 import com.fishbread101.dto.UserResponseDto;
+import com.fishbread101.service.AuthService;
 import com.fishbread101.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -20,18 +21,21 @@ import javax.validation.Valid;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    private final UserService userService;
+    private final AuthService authService;
 
     // 회원가입
     @PostMapping("/sign-up")
     public void signup(@RequestBody @Valid SignUpRequestDto signUpRequestDto) {
-        userService.signUp(signUpRequestDto);
+        authService.signUp(signUpRequestDto);
     }
 
     // 로그인
     @PostMapping("/sign-in")
-    public UserResponseDto signIn(@RequestBody SignInRequestDto signInRequestDto, HttpServletResponse response) {
-        return userService.signIn(signInRequestDto, response);
+    public UserResponseDto signIn(
+            @RequestBody SignInRequestDto signInRequestDto,
+            HttpServletResponse response
+    ) {
+        return authService.signIn(signInRequestDto, response);
     }
 
     // 로그아웃
@@ -39,7 +43,7 @@ public class AuthController {
     public void signOut(
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-        userService.signOut(userDetails.getUser());
+        authService.signOut(userDetails.getUser());
     }
 
 }

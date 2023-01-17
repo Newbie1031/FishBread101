@@ -8,12 +8,6 @@ import java.util.List;
 
 public interface UserService {
 
-    UserResponseDto signUp(SignUpRequestDto signupRequestDto);
-
-    UserResponseDto signIn(SignInRequestDto signInRequestDto, HttpServletResponse response);
-
-    void signOut(User user);
-
     ProfileResponseDto getProfile(User user);
 
     ProfileResponseDto modifyProfile(ProfileModifyRequestDto profileModifyRequestDto, User user);
@@ -22,13 +16,13 @@ public interface UserService {
 
     List<UserResponseDto> getAllTutors();
 
-    List<UserResponseDto> getTutorApplyList();
+    List<UserResponseDto> getPromotionList();
 
-    void applyTutor(User user);
+    void registerPromotion(User user);
 
-    void allowTutorApply(Long userId);
+    void allowPromotion(Long userId);
 
-    void refuseTutorApply(Long userId);
+    void refusePromotion(Long userId);
 
     UserResponseDto getTutorProfile(Long tutorId);
 

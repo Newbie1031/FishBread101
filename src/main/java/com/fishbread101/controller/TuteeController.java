@@ -24,11 +24,11 @@ public class TuteeController {
     private final LectureService lectureService;
     private final ApplyService applyService;
 
-    //학생 프로필 설정
+    //학생 프로필 수정
     @PostMapping("/profile")
     public void modifyProfile(
             @RequestBody ProfileModifyRequestDto profileModifyRequestDto,
-            @AuthenticationPrincipal UserDetailsImpl userDetails
+            @AuthenticationPrincipal UserDetailsImpl userDetails // 어떤 유저가 요청을했는지
     ) {
         userService.modifyProfile(profileModifyRequestDto, userDetails.getUser());
     }
@@ -72,10 +72,10 @@ public class TuteeController {
 
     //튜터 권한 요청
     @PostMapping("/promotion")
-    public void applyPromotion(
+    public void registerPromotion(
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-        userService.applyTutor(userDetails.getUser());
+        userService.registerPromotion(userDetails.getUser());
     }
 
 }

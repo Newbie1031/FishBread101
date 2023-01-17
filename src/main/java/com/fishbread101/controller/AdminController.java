@@ -15,38 +15,37 @@ import java.util.List;
 public class AdminController {
 
     private final UserService userService;
-    private final ApplyService applyService;
-    
-    // 튜티 목록 조회
+
+    // 전체 튜티 목록 조회
     @GetMapping("/tutees")
     public List<UserResponseDto> getTuteeList() {
         return userService.getTuteeList();
     }
 
-    // 튜터 목록 조회
+    // 전체 튜터 목록 조회
     @GetMapping("/tutors")
     public List<UserResponseDto> getTutorList() {
         return userService.getAllTutors();
     }
 
-    // 튜터 신청 목록 조회
+    // 전체 튜터 신청 목록 조회
     @GetMapping("/promotion")
-    public List<UserResponseDto> getApplyList(){
-        return userService.getTutorApplyList();
+    public List<UserResponseDto> getPromotionList(){
+        return userService.getPromotionList();
     }
 
     // 튜터 신청 승인
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PatchMapping("/promotion/{id}")
-    public void allowTutorApply(@PathVariable Long userId){
-        userService.allowTutorApply(userId);
+    @PatchMapping("/promotion/{userId}")
+    public void allowPromotion(@PathVariable Long userId){
+        userService.allowPromotion(userId);
     }
 
     // 튜터 신청 거부
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @DeleteMapping("/promotion/{id}")
-    public void refuseTutorApply(@PathVariable Long userId){
-        userService.refuseTutorApply(userId);
+    @DeleteMapping("/promotion/{userId}")
+    public void refusePromotion(@PathVariable Long userId){
+        userService.refusePromotion(userId);
     }
 
 }
