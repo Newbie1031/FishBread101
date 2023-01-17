@@ -1,7 +1,6 @@
 package com.fishbread101.controller;
 
 import com.fishbread101.dto.UserResponseDto;
-import com.fishbread101.service.ApplyService;
 import com.fishbread101.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
