@@ -23,7 +23,7 @@ public class LectureServiceImpl implements LectureService {
 
     @Transactional
     public LectureResponseDto createLecture(LectureRequestDto lectureRequestDto, User user) {
-        Lecture lecture = new Lecture(lectureRequestDto);
+        Lecture lecture = new Lecture(lectureRequestDto, user);
         lectureRepository.save(lecture);
         return new LectureResponseDto();
     }
@@ -33,6 +33,15 @@ public class LectureServiceImpl implements LectureService {
         Lecture lecture = lectureRepository.findById(lectureId).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 강의입니다.")
         );
+
+        if(lecture.getTutor().equals(user)) {
+            // 정상 로직
+        } else {
+            // 당신이 만든 강의가 아닙니다 exception
+        }
+
+        lecture.changeLectureStatus(lectureModifyRequestDto);
+
         lectureRepository.update(lectureModifyRequestDto);
 
         return new LectureResponseDto();
@@ -40,16 +49,26 @@ public class LectureServiceImpl implements LectureService {
 
     @Transactional
     public List<LectureResponseDto> getMyLectures(User user) {  // 메소드명 수정
-        List<Lecture> lectureList = lectureRepository.findAll();
-        List<LectureResponseDto> lectureResponseDtoList = lectureList
-        return lectureResponseDtoList;
+        List<Lecture> lectureList = lectureRepository.findAllByTutor(user); // 이 프로젝트내에 있는 모든 강의가 가져와짐
+        for (Lecture lecture : lectureList) {
+            lecture => lectureResponseDto
+            list.add(lectureResponseDto);
+        }
+//        List<LectureResponseDto> lectureResponseDtoList = lectureList
+        return list;
     }
 
     @Transactional
-    public void deleteLecture(Long lectureId, UserDetailsImpl userDetails) {   // 메소드명 수정
+    public void deleteLecture(Long lectureId, User user) {   // 메소드명 수정
         Lecture lecture = lectureRepository.findById(lectureId).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 강의입니다.")
         );
-        lectureRepository.delete(lecture);
+        if(lecture.getTutor().equals(user)) {
+            // 정상 로직
+            lectureRepository.delete(lecture);
+        } else {
+            // 당신이 만든 강의가 아닙니다 exception
+        }
     }
+
 }

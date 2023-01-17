@@ -28,10 +28,10 @@ public class TutorController {
             @RequestBody ProfileModifyRequestDto profileModifyRequestDto,
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-        return userService.modifyProfile(profileModifyRequestDto, userDetails.getUser());
+        return userService.modifyProfile(profileModifyRequestDto, userDetails.getUser()); // 어떤 유저가 요청하는지
     }
 
-    // 2.프로필 조회
+    // 2.프로필 조회 - 자기자신의 프로필을조회
     @GetMapping("/profile")
     public ProfileResponseDto getProfile(
             @AuthenticationPrincipal UserDetailsImpl userDetails
@@ -66,21 +66,13 @@ public class TutorController {
         return lectureService.getMyLectures(userDetails.getUser());
     }
 
-    // 4. 자신이 등록한 강의에 신청한 튜티 조회
-    @GetMapping("/enrolments/{lectureId}")
-    public List<EnrolmentResponseDto> getMyLecturesEnrolment(
-            @PathVariable Long lectureId
-    ) {
-        return enrolmentService.getMyLecturesEnrolment(lectureId);
-    }
-
     // 7. 자신이 등록한 강의 삭제
     @DeleteMapping("/lectures/{lectureId}")
     public void deleteLecture(
-            @PathVariable Long lectureId,
-            @AuthenticationPrincipal UserDetailsImpl userDetails
+            @PathVariable Long lectureId, // 몇번강의
+            @AuthenticationPrincipal UserDetailsImpl userDetails // 어느 유저가 요청?
     ) {
-        lectureService.deleteLecture(lectureId, userDetails);
+        lectureService.deleteLecture(lectureId, userDetails.getUser());
     }
 
     // 8. 수강 신청 승인
@@ -99,5 +91,14 @@ public class TutorController {
     ) {
         applyService.refuseApply(applyId);
     }
+
+    // 4. 자신이 등록한 강의에 신청한 튜티 조회
+    @GetMapping("/enrolments/{lectureId}")
+    public List<EnrolmentResponseDto> getMyLecturesEnrolment(
+            @PathVariable Long lectureId
+    ) {
+        return enrolmentService.getMyLecturesEnrolment(lectureId);
+    }
+
 
 }

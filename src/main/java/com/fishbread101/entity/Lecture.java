@@ -1,5 +1,7 @@
 package com.fishbread101.entity;
 
+import com.fishbread101.dto.LectureModifyRequestDto;
+import com.fishbread101.dto.LectureRequestDto;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -30,4 +32,15 @@ public class Lecture {
 
     @OneToMany(mappedBy = "lecture", cascade = CascadeType.REMOVE)
     private List<Apply> applyList = new ArrayList<>();
+
+    public Lecture(LectureRequestDto lectureRequestDto, User user) {
+        this.tutor = user;
+        this.description = lectureRequestDto.getDescription();
+        this.image = lectureRequestDto.getImage();
+        this.capacity = lectureRequestDto.getCapacity();
+    }
+
+    public void changeLectureStatus(LectureModifyRequestDto lectureModifyRequestDto) {
+        this.description = lectureModifyRequestDto.getDescription();
+    }
 }

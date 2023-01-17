@@ -16,7 +16,7 @@ public interface LectureService {
 
     LectureResponseDto updateLecture(Long lectureId, LectureModifyRequestDto lectureRequestDto, User user);
 
-    void deleteLecture(Long lectureId, UserDetailsImpl userDetails);
+    void deleteLecture(Long lectureId, User user);
 
     List<LectureResponseDto> getMyLectures(User user);
 
