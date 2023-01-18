@@ -41,6 +41,9 @@ public class Lecture {
     }
 
     public void changeLectureStatus(LectureModifyRequestDto lectureModifyRequestDto) {
+        this.tutor = lectureModifyRequestDto.getNickname(); // nickname?
+        this.image = lectureModifyRequestDto.getImage();
         this.description = lectureModifyRequestDto.getDescription();
+        this.capacity = lectureModifyRequestDto.getCapacity();
     }
 }

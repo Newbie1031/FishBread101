@@ -1,5 +1,6 @@
 package com.fishbread101.service;
 
+import com.fishbread101.dto.ApplyResponseDto;
 import com.fishbread101.entity.Apply;
 import com.fishbread101.entity.Enrolment;
 import com.fishbread101.entity.Lecture;
@@ -21,7 +22,9 @@ public class ApplyServiceImpl implements ApplyService {
 
     @Transactional
     public void allowApply(Long id) {
-        Apply apply = applyRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("없는 신청"));
+        Apply apply = applyRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("존재하지 않는 신청 내용입니다.")
+        );
         Lecture lecture = apply.getLecture();
         User tutee = apply.getTutee();
         Enrolment enrolment = new Enrolment(tutee, lecture);
@@ -30,7 +33,9 @@ public class ApplyServiceImpl implements ApplyService {
 
     @Transactional
     public void refuseApply(Long applyId) {
-        Apply apply = applyRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("없는 신청"));
+        Apply apply = applyRepository.findById(applyId).orElseThrow(
+                () -> new IllegalArgumentException("존재하지 않는 신청 내용입니다.")
+        );
         applyRepository.delete(apply);
     }
 
