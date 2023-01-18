@@ -66,7 +66,7 @@ public class User extends TimeStamp {
     }
 
     public void changeApplyStatus(Boolean appliedTutor) {
-        this.appliedTutor = false;
+        this.appliedTutor = appliedTutor;
     }
 
 }

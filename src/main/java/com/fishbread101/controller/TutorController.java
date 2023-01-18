@@ -24,11 +24,11 @@ public class TutorController {
 
     // 1.프로필 설정
     @PostMapping("/profile")
-    public ProfileResponseDto modifyProfile(
+    public void modifyProfile(
             @RequestBody ProfileModifyRequestDto profileModifyRequestDto,
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-        return userService.modifyProfile(profileModifyRequestDto, userDetails.getUser());
+        userService.modifyProfile(profileModifyRequestDto, userDetails.getUser());
     }
 
     // 2.프로필 조회

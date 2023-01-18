@@ -63,6 +63,7 @@ public class TuteeController {
         return userService.getTutorProfile(tutorId);
     }
 
+    // gwanh1234 => POST => http://localhost:8080/api/tutee/lectures/1
     //수강 신청
     @PostMapping("/lectures/{id}")
     public void applyLecture(
@@ -72,6 +73,7 @@ public class TuteeController {
         applyService.applyLecture(id, userDetails.getUser());
     }
 
+    // http://localhost:8080/api/tutee/promotion => POST
     //튜터 권한 요청
     @PostMapping("/promotion")
     public void registerPromotion(
