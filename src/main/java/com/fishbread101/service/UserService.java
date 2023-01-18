@@ -3,7 +3,6 @@ package com.fishbread101.service;
 import com.fishbread101.dto.*;
 import com.fishbread101.entity.User;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public interface UserService {

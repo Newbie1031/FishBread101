@@ -2,7 +2,10 @@ package com.fishbread101.entity;
 
 import com.fishbread101.common.TimeStamp;
 import com.fishbread101.dto.ProfileModifyRequestDto;
+import com.fishbread101.dto.SignUpRequestDto;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -11,6 +14,7 @@ import java.util.List;
 @Entity
 @Getter
 @Table(name = "users")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends TimeStamp {
 
     @Id
@@ -29,7 +33,7 @@ public class User extends TimeStamp {
 
     private UserRole userRole;
 
-    private boolean appliedTutor;
+    private Boolean appliedTutor;
 
     @OneToMany(mappedBy = "tutee", cascade = CascadeType.REMOVE)
     private List<Enrolment> enrolmentList = new ArrayList<>(); // 강의 수강 - 수강이 확정된 상태 - 튜터가 허락해줌
@@ -45,4 +49,23 @@ public class User extends TimeStamp {
         this.image = profileModifyRequestDto.getImage();
         this.description = profileModifyRequestDto.getDescription();
     }
+    
+    public User(String loginId, String encodedPw) {
+        this.loginId = loginId;
+        this.loginPw = encodedPw;
+        this.nickname = "";
+        this.image = "";
+        this.description = "";
+        this.userRole = UserRole.TUTEE;
+        appliedTutor = false;
+    }
+
+    public void changeRole(UserRole role) {
+        this.userRole = role;
+    }
+
+    public void changeApplyStatus(Boolean appliedTutor) {
+        this.appliedTutor = false;
+    }
+
 }

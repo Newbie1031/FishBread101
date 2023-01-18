@@ -31,19 +31,11 @@ public class AuthController {
 
     // 로그인
     @PostMapping("/sign-in")
-    public UserResponseDto signIn(
+    public String signIn(
             @RequestBody SignInRequestDto signInRequestDto,
-            HttpServletResponse response
+            HttpServletResponse response // 응답
     ) {
         return authService.signIn(signInRequestDto, response);
-    }
-
-    // 로그아웃
-    @PostMapping("/sign-out")
-    public void signOut(
-            @AuthenticationPrincipal UserDetailsImpl userDetails
-    ) {
-        authService.signOut(userDetails.getUser());
     }
 
 }
