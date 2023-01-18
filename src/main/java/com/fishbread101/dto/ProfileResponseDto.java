@@ -6,12 +6,14 @@ import lombok.Getter;
 public class ProfileResponseDto {
 
     private Long id;
-    private String LoginId;
+    private String loginId;
     private String nickname;
+    private String image;
+    private String description;
 
-    public ProfileResponseDto(Long id, String loginId, String nickname) {
-        this.id = id;
-        LoginId = loginId;
+    public ProfileResponseDto(String nickname, String image, String description) {
         this.nickname = nickname;
+        this.image = image;
+        this.description = description;
     }
 }

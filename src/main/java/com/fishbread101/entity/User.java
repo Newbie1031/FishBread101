@@ -42,5 +42,7 @@ public class User extends TimeStamp {
 
     public void changeProfile(ProfileModifyRequestDto profileModifyRequestDto) {
         this.nickname = profileModifyRequestDto.getNickname();
+        this.image = profileModifyRequestDto.getImage();
+        this.description = profileModifyRequestDto.getDescription();
     }
 }

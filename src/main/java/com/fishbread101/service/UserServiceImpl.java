@@ -18,17 +18,16 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     public ProfileResponseDto modifyProfile(ProfileModifyRequestDto profileModifyRequestDto, User user) {
-//        User user = new User(profileModifyRequestDto);
         user.changeProfile(profileModifyRequestDto); // 등록될테고,
         userRepository.save(user); // 변경사항이 반영된다.
-        return new ProfileResponseDto();
+        return new ProfileResponseDto(user.getNickname(), user.getImage(), user.getDescription());
     }
 
     @Transactional
     public ProfileResponseDto getProfile(User user) {
-        Long id = user.getId();
-        String loginId = user.getLoginId();
         String nickname = user.getNickname();
-        return new ProfileResponseDto(id, loginId, nickname);
+        String image = user.getImage();
+        String description = user.getDescription();
+        return new ProfileResponseDto(nickname, image, description);
     }
 }
