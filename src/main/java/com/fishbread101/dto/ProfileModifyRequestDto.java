@@ -1,12 +1,14 @@
 package com.fishbread101.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 
-@Getter
+@AllArgsConstructor
 @NoArgsConstructor
+@Getter
 public class ProfileModifyRequestDto {
     @NotBlank(message = "닉네임을 입력하세요.")
     private String nickname;

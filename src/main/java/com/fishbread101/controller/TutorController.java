@@ -28,7 +28,7 @@ public class TutorController {
             @RequestBody ProfileModifyRequestDto profileModifyRequestDto,
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-        userService.modifyProfile(profileModifyRequestDto, userDetails.getUser()); // 어떤 유저가 요청하는지
+        userService.modifyProfile(profileModifyRequestDto, userDetails.getUser());
     }
 
     // 2.프로필 조회 - 자기자신의 프로필을조회

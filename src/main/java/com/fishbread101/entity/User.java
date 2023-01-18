@@ -49,7 +49,7 @@ public class User extends TimeStamp {
         this.image = profileModifyRequestDto.getImage();
         this.description = profileModifyRequestDto.getDescription();
     }
-    
+
     public User(String loginId, String encodedPw) {
         this.loginId = loginId;
         this.loginPw = encodedPw;
@@ -65,7 +65,7 @@ public class User extends TimeStamp {
     }
 
     public void changeApplyStatus(Boolean appliedTutor) {
-        this.appliedTutor = false;
+        this.appliedTutor = appliedTutor;
     }
 
 }

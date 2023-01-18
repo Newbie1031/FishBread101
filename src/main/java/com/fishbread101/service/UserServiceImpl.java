@@ -1,5 +1,11 @@
 package com.fishbread101.service;
 
+import com.fishbread101.dto.LectureResponseDto;
+import com.fishbread101.dto.ProfileModifyRequestDto;
+import com.fishbread101.dto.ProfileResponseDto;
+import com.fishbread101.entity.*;
+import com.fishbread101.repository.ApplyRepository;
+import com.fishbread101.repository.LectureRepository;
 import com.fishbread101.dto.ProfileModifyRequestDto;
 import com.fishbread101.dto.ProfileResponseDto;
 import com.fishbread101.entity.User;
@@ -8,16 +14,15 @@ import com.fishbread101.repository.EnrolmentRepository;
 import com.fishbread101.repository.LectureRepository;
 import com.fishbread101.dto.UserResponseDto;
 import com.fishbread101.entity.User;
-import com.fishbread101.entity.UserRole;
 import com.fishbread101.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,33 +31,31 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public void modifyProfile(ProfileModifyRequestDto profileModifyRequestDto, User user) {
-        user.changeProfile(profileModifyRequestDto);
-        userRepository.save(user);
-        return new ProfileResponseDto(user.getNickname(), user.getImage(), user.getDescription());
-    }
-
-    @Transactional
     public ProfileResponseDto getProfile(User user) {
         String nickname = user.getNickname();
         String image = user.getImage();
         String description = user.getDescription();
         return new ProfileResponseDto(nickname, image, description);
-
-    private final UserRepository userRepository;
-
-    @Override
-    public ProfileResponseDto getProfile(User user) {
-        return null;
     }
 
     @Override
-    public ProfileResponseDto modifyProfile(ProfileModifyRequestDto profileModifyRequestDto, User user) {
-        return null;
+    @Transactional
+    public void modifyProfile (ProfileModifyRequestDto profileModifyRequestDto, User user){
+        user.modify(profileModifyRequestDto);
+        userRepository.save(user);
+    }
+
+    //튜터 정보 조회
+    @Override
+    @Transactional(readOnly = true)
+    public UserResponseDto getTutorProfile(Long tutorId) {
+        User user = userRepository.findById(tutorId).orElseThrow();
+        return new UserResponseDto(user);
     }
 
     // 전체 튜티 목록 조회
     @Override
+    @Transactional
     public List<UserResponseDto> getTuteeList() {
         List<User> list = userRepository.findByUserRole(UserRole.TUTEE);
         List<UserResponseDto> userResponseDtoList = new ArrayList<>();
@@ -64,6 +67,7 @@ public class UserServiceImpl implements UserService {
 
 //    전체 튜터 목록 조회
     @Override
+    @Transactional
     public List<UserResponseDto> getAllTutors() {
         List<User> list = userRepository.findByUserRole(UserRole.TUTOR);
         List<UserResponseDto> userResponseDtoList = new ArrayList<>();
@@ -75,6 +79,7 @@ public class UserServiceImpl implements UserService {
 
 //    전체 튜터 신청 목록 조회
     @Override
+    @Transactional
     public List<UserResponseDto> getPromotionList() {
         List<User> list = userRepository.findByAppliedTutor(true);
         List<UserResponseDto> userResponseDtoList = new ArrayList<>();
@@ -85,7 +90,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void registerPromotion(User user) {
+        user.changeApplyStatus(true);
     }
 
 //    튜터 신청 승인
@@ -113,9 +120,5 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    @Override
-    public UserResponseDto getTutorProfile(Long tutorId) {
-        return null;
-    }
-    
+
 }

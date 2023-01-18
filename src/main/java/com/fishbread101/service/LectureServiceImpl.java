@@ -10,6 +10,7 @@ import com.fishbread101.repository.ApplyRepository;
 import com.fishbread101.repository.EnrolmentRepository;
 import com.fishbread101.repository.LectureRepository;
 import com.fishbread101.repository.UserRepository;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +21,22 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class LectureServiceImpl implements LectureService {
+
     private final LectureRepository lectureRepository;
+
+    //모든 강의 조회
+    @Transactional(readOnly = true)
+    @Override
+    public List<LectureResponseDto> getAllLectures() {
+        List<LectureResponseDto> lectureResponseDtoList = new ArrayList<>();
+        List<Lecture> lectures = lectureRepository.findAll();
+
+        for (Lecture lecture: lectures) {
+            lectureResponseDtoList.add(new LectureResponseDto(lecture));
+        }
+        return lectureResponseDtoList;
+    }
+
 
     @Override
     @Transactional // 200 OK

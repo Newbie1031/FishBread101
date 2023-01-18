@@ -1,5 +1,6 @@
 package com.fishbread101.dto;
 
+import com.fishbread101.entity.Lecture;
 import com.fishbread101.entity.User;
 import lombok.Getter;
 

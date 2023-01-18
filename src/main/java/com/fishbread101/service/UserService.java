@@ -2,6 +2,7 @@ package com.fishbread101.service;
 
 import com.fishbread101.dto.*;
 import com.fishbread101.entity.User;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 

@@ -11,4 +11,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findByAppliedTutor(boolean appliedTutor);
     List<User> findByUserRole(UserRole userRole);
     Optional<User> findByLoginId(String loginId);
+
+//    User findByProfileId();
 }
