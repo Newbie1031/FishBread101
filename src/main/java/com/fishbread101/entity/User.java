@@ -44,12 +44,11 @@ public class User extends TimeStamp {
     @OneToMany(mappedBy = "tutor", cascade = CascadeType.REMOVE)
     private List<Lecture> myLectures = new ArrayList<>(); // 튜터일때, 자신이 생성한 강의들
 
-    public void modify(ProfileModifyRequestDto profileModifyRequestDto) {
+    public void changeProfile(ProfileModifyRequestDto profileModifyRequestDto) {
         this.nickname = profileModifyRequestDto.getNickname();
         this.image = profileModifyRequestDto.getImage();
         this.description = profileModifyRequestDto.getDescription();
     }
-
 
     public User(String loginId, String encodedPw) {
         this.loginId = loginId;

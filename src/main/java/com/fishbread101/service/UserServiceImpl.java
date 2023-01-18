@@ -8,11 +8,15 @@ import com.fishbread101.repository.ApplyRepository;
 import com.fishbread101.repository.LectureRepository;
 import com.fishbread101.dto.ProfileModifyRequestDto;
 import com.fishbread101.dto.ProfileResponseDto;
+import com.fishbread101.entity.User;
+import com.fishbread101.repository.ApplyRepository;
+import com.fishbread101.repository.EnrolmentRepository;
+import com.fishbread101.repository.LectureRepository;
 import com.fishbread101.dto.UserResponseDto;
 import com.fishbread101.entity.User;
 import com.fishbread101.repository.UserRepository;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,20 +30,19 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
-    //튜티 프로필 수정
+    @Transactional
+    public ProfileResponseDto getProfile(User user) {
+        String nickname = user.getNickname();
+        String image = user.getImage();
+        String description = user.getDescription();
+        return new ProfileResponseDto(nickname, image, description);
+    }
+
     @Override
     @Transactional
     public void modifyProfile (ProfileModifyRequestDto profileModifyRequestDto, User user){
         user.modify(profileModifyRequestDto);
         userRepository.save(user);
-    }
-
-    //튜티 프로필 조회(개인 프로필)
-    @Override
-    @Transactional
-    public ProfileResponseDto getProfile(User user) {
-        ProfileResponseDto result = new ProfileResponseDto(user.getNickname(), user.getImage(), user.getDescription());
-        return result;
     }
 
     //튜터 정보 조회
@@ -119,27 +122,3 @@ public class UserServiceImpl implements UserService {
 
 
 }
-
-/*
-    //튜티가 수강하는 강의의 튜터 목록 조회
-    @Override
-    @Transactional
-    public List<UserResponseDto> getAllTutors() {
-        List<User> list = userRepository.findByUserRole(UserRole.TUTEE);
-        List<UserResponseDto> userResponseDtoList = new ArrayList<>();
-        for (User user : list) {
-            userResponseDtoList.add(new UserResponseDto(user));
-        }
-        return userResponseDtoList;
-    }
-
-    //    @Transactional
-//    public User findProfile(Long tutorId) {
-//        Optional<User> foundProfile = userRepository.findByProfileId(tutorId);
-//        if(foundProfile.isEmpty()) {
-//            throw new IllegalArgumentException("프로필이 존재하지 않습니다");
-//        }
-//        return findProfile(tutorId);
-//    }
-
- */
