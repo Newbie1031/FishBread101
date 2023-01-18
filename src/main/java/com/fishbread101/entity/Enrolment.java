@@ -1,10 +1,15 @@
 package com.fishbread101.entity;
 
 import com.fishbread101.common.TimeStamp;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
+@NoArgsConstructor
+@Getter
 public class Enrolment extends TimeStamp {
 
     @Id
@@ -19,4 +24,8 @@ public class Enrolment extends TimeStamp {
     @JoinColumn(name = "lecture_id") // fk값으로 변경될거고
     private Lecture lecture;
 
+    public Enrolment(User tutee, Lecture lecture) {
+        this.tutee = tutee;
+        this.lecture = lecture;
+    }
 }

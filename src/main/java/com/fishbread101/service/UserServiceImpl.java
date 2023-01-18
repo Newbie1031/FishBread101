@@ -2,11 +2,17 @@ package com.fishbread101.service;
 
 import com.fishbread101.dto.ProfileModifyRequestDto;
 import com.fishbread101.dto.ProfileResponseDto;
+import com.fishbread101.entity.User;
+import com.fishbread101.repository.ApplyRepository;
+import com.fishbread101.repository.EnrolmentRepository;
+import com.fishbread101.repository.LectureRepository;
 import com.fishbread101.dto.UserResponseDto;
 import com.fishbread101.entity.User;
 import com.fishbread101.entity.UserRole;
 import com.fishbread101.repository.UserRepository;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +22,22 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
+
+    private final UserRepository userRepository;
+
+    @Transactional
+    public void modifyProfile(ProfileModifyRequestDto profileModifyRequestDto, User user) {
+        user.changeProfile(profileModifyRequestDto);
+        userRepository.save(user);
+        return new ProfileResponseDto(user.getNickname(), user.getImage(), user.getDescription());
+    }
+
+    @Transactional
+    public ProfileResponseDto getProfile(User user) {
+        String nickname = user.getNickname();
+        String image = user.getImage();
+        String description = user.getDescription();
+        return new ProfileResponseDto(nickname, image, description);
 
     private final UserRepository userRepository;
 
@@ -95,4 +117,5 @@ public class UserServiceImpl implements UserService {
     public UserResponseDto getTutorProfile(Long tutorId) {
         return null;
     }
+    
 }

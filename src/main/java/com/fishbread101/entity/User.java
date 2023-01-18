@@ -1,6 +1,7 @@
 package com.fishbread101.entity;
 
 import com.fishbread101.common.TimeStamp;
+import com.fishbread101.dto.ProfileModifyRequestDto;
 import com.fishbread101.dto.SignUpRequestDto;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -43,6 +44,12 @@ public class User extends TimeStamp {
     @OneToMany(mappedBy = "tutor", cascade = CascadeType.REMOVE)
     private List<Lecture> myLectures = new ArrayList<>(); // 튜터일때, 자신이 생성한 강의들
 
+    public void changeProfile(ProfileModifyRequestDto profileModifyRequestDto) {
+        this.nickname = profileModifyRequestDto.getNickname();
+        this.image = profileModifyRequestDto.getImage();
+        this.description = profileModifyRequestDto.getDescription();
+    }
+    
     public User(String loginId, String encodedPw) {
         this.loginId = loginId;
         this.loginPw = encodedPw;
