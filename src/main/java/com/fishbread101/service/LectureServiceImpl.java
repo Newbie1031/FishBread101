@@ -32,7 +32,7 @@ public class LectureServiceImpl implements LectureService {
         List<Lecture> lectures = lectureRepository.findAll();
 
         for (Lecture lecture: lectures) {
-            lectureResponseDtoList.add(new LectureResponseDto(lecture));
+            lectureResponseDtoList.add(new LectureResponseDto(lecture.getTutor().getNickname(), lecture.getImage(), lecture.getDescription(), lecture.getCapacity()));
         }
         return lectureResponseDtoList;
     }

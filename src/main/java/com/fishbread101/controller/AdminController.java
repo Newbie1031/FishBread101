@@ -34,14 +34,12 @@ public class AdminController {
     }
 
     // 튜터 신청 승인
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PatchMapping("/promotion/{userId}")
     public void allowPromotion(@PathVariable Long userId){
         userService.allowPromotion(userId);
     }
 
     // 튜터 신청 거부
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/promotion/{userId}")
     public void refusePromotion(@PathVariable Long userId){
         userService.refusePromotion(userId);

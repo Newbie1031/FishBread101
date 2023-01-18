@@ -35,13 +35,13 @@ public class UserServiceImpl implements UserService {
         String nickname = user.getNickname();
         String image = user.getImage();
         String description = user.getDescription();
-        return new ProfileResponseDto(nickname, image, description);
+        return new ProfileResponseDto(user.getId(), user.getLoginId(), nickname, image, description);
     }
 
     @Override
     @Transactional
     public void modifyProfile (ProfileModifyRequestDto profileModifyRequestDto, User user){
-        user.modify(profileModifyRequestDto);
+        user.changeProfile(profileModifyRequestDto);
         userRepository.save(user);
     }
 
@@ -93,6 +93,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void registerPromotion(User user) {
         user.changeApplyStatus(true);
+        userRepository.saveAndFlush(user);
     }
 
 //    튜터 신청 승인
@@ -100,7 +101,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void allowPromotion(Long userId) {
         User user = userRepository.findById(userId).orElseThrow();
-        if (user.getAppliedTutor().equals(true)) {
+        if (user.isAppliedTutor() == true) {
             user.changeRole(UserRole.TUTOR);
             user.changeApplyStatus(false);
         } else {
@@ -113,7 +114,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void refusePromotion(Long userId) {
         User user = userRepository.findById(userId).orElseThrow();
-        if (user.getAppliedTutor().equals(true)) {
+        if (user.isAppliedTutor() == true) {
             user.changeApplyStatus(false);
         } else {
             throw new IllegalArgumentException("신청되지 않은 사용자입니다.");
