@@ -24,6 +24,4 @@ public interface UserService {
     void refusePromotion(Long userId);
 
     UserResponseDto getTutorProfile(Long tutorId);
-
-    List<LectureResponseDto> getAllLectures();
 }
