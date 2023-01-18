@@ -31,9 +31,10 @@ public class User extends TimeStamp {
 
     private String description;
 
+    @Enumerated(value = EnumType.STRING)
     private UserRole userRole;
 
-    private Boolean appliedTutor;
+    private boolean appliedTutor;
 
     @OneToMany(mappedBy = "tutee", cascade = CascadeType.REMOVE)
     private List<Enrolment> enrolmentList = new ArrayList<>(); // 강의 수강 - 수강이 확정된 상태 - 튜터가 허락해줌
@@ -60,11 +61,21 @@ public class User extends TimeStamp {
         appliedTutor = false;
     }
 
+    public User(String loginId, String loginPw, String nickname, String image, String description, UserRole userRole, boolean appliedTutor) {
+        this.loginId = loginId;
+        this.loginPw = loginPw;
+        this.nickname = nickname;
+        this.image = image;
+        this.description = description;
+        this.userRole = userRole;
+        this.appliedTutor = appliedTutor;
+    }
+
     public void changeRole(UserRole role) {
         this.userRole = role;
     }
 
-    public void changeApplyStatus(Boolean appliedTutor) {
+    public void changeApplyStatus(boolean appliedTutor) {
         this.appliedTutor = appliedTutor;
     }
 

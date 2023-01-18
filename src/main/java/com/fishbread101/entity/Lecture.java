@@ -2,7 +2,9 @@ package com.fishbread101.entity;
 
 import com.fishbread101.dto.LectureModifyRequestDto;
 import com.fishbread101.dto.LectureRequestDto;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -11,6 +13,7 @@ import java.util.List;
 @Entity
 @Getter
 @Table(name = "lectures")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Lecture {
 
     @Id
@@ -40,8 +43,14 @@ public class Lecture {
         this.capacity = lectureRequestDto.getCapacity();
     }
 
+    public Lecture(User tutor, String description, String image, Integer capacity) {
+        this.tutor = tutor;
+        this.description = description;
+        this.image = image;
+        this.capacity = capacity;
+    }
+
     public void changeLectureStatus(LectureModifyRequestDto lectureModifyRequestDto) {
-        this.tutor = lectureModifyRequestDto.getNickname(); // nickname?
         this.image = lectureModifyRequestDto.getImage();
         this.description = lectureModifyRequestDto.getDescription();
         this.capacity = lectureModifyRequestDto.getCapacity();
