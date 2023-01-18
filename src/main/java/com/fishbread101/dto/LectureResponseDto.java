@@ -5,13 +5,13 @@ import lombok.Getter;
 
 @Getter
 public class LectureResponseDto {
-    private User tutor;
+    private String tutorName;
     private String image;
     private String description;
     private int capacity;
 
-    public LectureResponseDto(User tutor, String image, String description, int capacity) {
-        this.tutor = tutor;
+    public LectureResponseDto(String tutorName, String image, String description, int capacity) {
+        this.tutorName = tutorName;
         this.image = image;
         this.description = description;
         this.capacity = capacity;

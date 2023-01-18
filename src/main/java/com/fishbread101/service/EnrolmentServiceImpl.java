@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,11 +28,14 @@ public class EnrolmentServiceImpl implements EnrolmentService {
                 () -> new IllegalArgumentException("존재하지 않는 강의입니다.")
         );
         List<Enrolment> enrolmentList = lecture.getEnrolmentList();
+        List<EnrolmentResponseDto> result = new ArrayList<>();
         for (Enrolment enrolment : enrolmentList) {
-            enrolmentList.add(enrolment);
+            EnrolmentResponseDto dto = new EnrolmentResponseDto(enrolment.getTutee().getId(), enrolment.getTutee().getNickname());
+            result.add(dto);
         }
 //        List<Enrolment> enrolmentList = lecture.getEnrolmentList();
 //        enrolmentList => enrlmentResponseDtoList 로 변환해서 return
 //        return ();
-        return List<EnrolmentResponseDto> enrolmentList;
+        return result;
+    }
 }

@@ -17,7 +17,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public ProfileResponseDto modifyProfile(ProfileModifyRequestDto profileModifyRequestDto, User user) {
+    public void modifyProfile(ProfileModifyRequestDto profileModifyRequestDto, User user) {
         user.changeProfile(profileModifyRequestDto); // 등록될테고,
         userRepository.save(user); // 변경사항이 반영된다.
         return new ProfileResponseDto(user.getNickname(), user.getImage(), user.getDescription());

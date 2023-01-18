@@ -24,11 +24,11 @@ public class TutorController {
 
     // 1.프로필 설정
     @PostMapping("/profile")
-    public ProfileResponseDto modifyProfile(
+    public void modifyProfile(
             @RequestBody ProfileModifyRequestDto profileModifyRequestDto,
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-        return userService.modifyProfile(profileModifyRequestDto, userDetails.getUser()); // 어떤 유저가 요청하는지
+        userService.modifyProfile(profileModifyRequestDto, userDetails.getUser()); // 어떤 유저가 요청하는지
     }
 
     // 2.프로필 조회 - 자기자신의 프로필을조회
@@ -41,21 +41,21 @@ public class TutorController {
 
     // 5. 강의 등록
     @PostMapping("/lectures")
-    public LectureResponseDto createLecture(
+    public void createLecture(
             @RequestBody LectureRequestDto lectureRequestDto,
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-        return lectureService.createLecture(lectureRequestDto, userDetails.getUser());
+        lectureService.createLecture(lectureRequestDto, userDetails.getUser());
     }
 
     // 6. 자신이 등록한 강의 수정
     @PatchMapping("/lectures/{lectureId}")
-    public LectureResponseDto updateLecture(
+    public void updateLecture(
             @PathVariable Long lectureId,
             @RequestBody LectureModifyRequestDto lectureModifyRequestDto,
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-        return lectureService.updateLecture(lectureId, lectureModifyRequestDto, userDetails.getUser());
+        lectureService.updateLecture(lectureId, lectureModifyRequestDto, userDetails.getUser());
     }
 
     // 3. 자신이 등록한 모든 강의 조회
@@ -92,7 +92,7 @@ public class TutorController {
         applyService.refuseApply(applyId);
     }
 
-    // 4. 자신이 등록한 강의에 신청한 튜티 조회
+    // 4. 자신이 등록한 강의에 정식 수강등록된 튜티 조회
     @GetMapping("/enrolments/{lectureId}")
     public List<EnrolmentResponseDto> getMyLecturesEnrolment(
             @PathVariable Long lectureId

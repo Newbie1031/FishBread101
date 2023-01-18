@@ -12,9 +12,9 @@ public interface LectureService {
 
     List<LectureResponseDto> getAllLectures();
 
-    LectureResponseDto createLecture(LectureRequestDto lectureRequestDto, User user);
+    void createLecture(LectureRequestDto lectureRequestDto, User user);
 
-    LectureResponseDto updateLecture(Long lectureId, LectureModifyRequestDto lectureRequestDto, User user);
+    void updateLecture(Long lectureId, LectureModifyRequestDto lectureRequestDto, User user);
 
     void deleteLecture(Long lectureId, User user);
 

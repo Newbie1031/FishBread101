@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,15 +22,16 @@ import java.util.List;
 public class LectureServiceImpl implements LectureService {
     private final LectureRepository lectureRepository;
 
-    @Transactional
-    public LectureResponseDto createLecture(LectureRequestDto lectureRequestDto, User user) {
+    @Override
+    @Transactional // 200 OK
+    public void createLecture(LectureRequestDto lectureRequestDto, User user) {
         Lecture lecture = new Lecture(lectureRequestDto, user);
         lectureRepository.save(lecture);
-        return new LectureResponseDto(lecture.getTutor(), lecture.getImage(), lecture.getDescription(), lecture.getCapacity());
     }
 
+    @Override
     @Transactional
-    public LectureResponseDto updateLecture(Long lectureId, LectureModifyRequestDto lectureModifyRequestDto, User user) {
+    public void updateLecture(Long lectureId, LectureModifyRequestDto lectureModifyRequestDto, User user) {
         Lecture lecture = lectureRepository.findById(lectureId).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 강의입니다.")
         );
@@ -42,20 +44,25 @@ public class LectureServiceImpl implements LectureService {
             // 당신이 만든 강의가 아닙니다 exception
             throw new IllegalArgumentException("수정할 수 없는 강의입니다.");
         }
-        return new LectureResponseDto(lecture.getTutor(), lecture.getImage(), lecture.getDescription(), lecture.getCapacity());
+
     }
 
+    // 튜터 나 자신이 만든 모든 강의를 가져오기.
+    @Override
     @Transactional
     public List<LectureResponseDto> getMyLectures(User user) {  // 메소드명 수정
-        List<Lecture> lectureList = lectureRepository.findAllByTutor(user); // 이 프로젝트내에 있는 모든 강의가 가져와짐
+        List<Lecture> lectureList = lectureRepository.findAllByTutor(user); // 이 프로젝트내에 있는 내가 만든 강의 다 긁어옴
+        List<LectureResponseDto> result = new ArrayList<>();
+
         for (Lecture lecture : lectureList) {
-//            lecture =
-            lectureList.add(lecture);
+            LectureResponseDto dto = new LectureResponseDto(lecture.getTutor().getNickname(), lecture.getImage(), lecture.getDescription(), lecture.getCapacity());
+            result.add(dto);
         }
-//        List<LectureResponseDto> lectureResponseDtoList = lectureList
-        return new List<Lecture> lectureList;
+
+        return result;
     }
 
+    @Override
     @Transactional
     public void deleteLecture(Long lectureId, User user) {   // 메소드명 수정
         Lecture lecture = lectureRepository.findById(lectureId).orElseThrow(

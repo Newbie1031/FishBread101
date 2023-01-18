@@ -2,12 +2,14 @@ package com.fishbread101.entity;
 
 import com.fishbread101.common.TimeStamp;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor
+@Getter
 public class Enrolment extends TimeStamp {
 
     @Id
