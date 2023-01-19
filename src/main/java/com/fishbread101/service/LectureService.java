@@ -18,6 +18,8 @@ public interface LectureService {
 
     void deleteLecture(Long lectureId, User user);
 
-    List<LectureResponseDto> getMyLectures(User user);
+    List<LectureResponseDto> getMyLectures(User user, int page, int size, String sortBy, boolean isAsc);
+    // 페이징 처리 전 코드
+//    List<LectureResponseDto> getMyLectures(User user);
 
 }
