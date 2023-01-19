@@ -7,6 +7,7 @@ import com.fishbread101.service.EnrolmentService;
 import com.fishbread101.service.LectureService;
 import com.fishbread101.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -58,13 +59,23 @@ public class TutorController {
         lectureService.updateLecture(lectureId, lectureModifyRequestDto, userDetails.getUser());
     }
 
-    // 3. 자신이 등록한 모든 강의 조회
+    // 3. 자신이 등록한 모든 강의 조회 - 페이징
     @GetMapping("/lectures")
     public List<LectureResponseDto> getLectures(
-            @AuthenticationPrincipal UserDetailsImpl userDetails
+            @AuthenticationPrincipal UserDetailsImpl userDetails,
+            @RequestParam("page") int page,
+            @RequestParam("size") int size,
+            @RequestParam("sortBy") String sortBy,
+            @RequestParam("isAsc") boolean isAsc
     ) {
-        return lectureService.getMyLectures(userDetails.getUser());
+        return lectureService.getMyLectures(userDetails.getUser(), page-1, size, sortBy, isAsc);
     }
+    // 페이징 처리 전 코드
+//    public List<LectureResponseDto> getLectures(
+//            @AuthenticationPrincipal UserDetailsImpl userDetails
+//    ) {
+//        return lectureService.getMyLectures(userDetails.getUser());
+//    }
 
     // 7. 자신이 등록한 강의 삭제
     @DeleteMapping("/lectures/{lectureId}")
@@ -92,7 +103,7 @@ public class TutorController {
         applyService.refuseApply(applyId);
     }
 
-    // 4. 자신이 등록한 강의에 정식 수강등록된 튜티 조회
+    // 4. 자신이 등록한 강의에 정식 수강등록된 튜티 조회 - 페이징
     @GetMapping("/enrolments/{lectureId}")
     public List<EnrolmentResponseDto> getMyLecturesEnrolment(
             @PathVariable Long lectureId

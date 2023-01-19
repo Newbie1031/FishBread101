@@ -75,8 +75,13 @@ public class LectureServiceImpl implements LectureService {
     // 튜터 나 자신이 만든 모든 강의를 가져오기.
     @Override
     @Transactional
-    public List<LectureResponseDto> getMyLectures(User user) {  // 메소드명 수정
-        List<Lecture> lectureList = lectureRepository.findAllByTutor(user); // 이 프로젝트내에 있는 내가 만든 강의 다 긁어옴
+    public List<LectureResponseDto> getMyLectures(User user, int page, int size, String sortBy, boolean isAsc) {  // 메소드명 수정
+        // 페이징 처리
+        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sort = Sort.by(direction, sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        Page<Lecture> lectureList = lectureRepository.findAllByTutor(user, pageable); // 이 프로젝트내에 있는 내가 만든 강의 다 긁어옴
         List<LectureResponseDto> result = new ArrayList<>();
 
         for (Lecture lecture : lectureList) {
@@ -86,6 +91,18 @@ public class LectureServiceImpl implements LectureService {
 
         return result;
     }
+    // 페이징 처리 전 코드
+//    public List<LectureResponseDto> getMyLectures(User user) {  // 메소드명 수정
+//        List<Lecture> lectureList = lectureRepository.findAllByTutor(user); // 이 프로젝트내에 있는 내가 만든 강의 다 긁어옴
+//        List<LectureResponseDto> result = new ArrayList<>();
+//
+//        for (Lecture lecture : lectureList) {
+//            LectureResponseDto dto = new LectureResponseDto(lecture.getTutor().getNickname(), lecture.getImage(), lecture.getDescription(), lecture.getCapacity());
+//            result.add(dto);
+//        }
+//
+//        return result;
+//    }
 
     @Override
     @Transactional

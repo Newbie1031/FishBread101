@@ -14,4 +14,9 @@ public interface LectureRepository extends JpaRepository<Lecture, Long> {
     List<Lecture> findAllByTutor(User user);
 
     Page<Lecture> findAll(Pageable pageable);
+    Page<Lecture> findAllByTutor(User user, Pageable pageable);
+
+    // 페이징 처리 전 코드
+//    List<Lecture> findAllByTutor(User user);
+
 }
