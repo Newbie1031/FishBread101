@@ -6,12 +6,14 @@ import com.fishbread101.entity.Lecture;
 import com.fishbread101.repository.EnrolmentRepository;
 import com.fishbread101.repository.LectureRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.List;
-
 import java.util.List;
 
 @Service
@@ -22,22 +24,27 @@ public class EnrolmentServiceImpl implements EnrolmentService {
     private final EnrolmentRepository enrolmentRepository;
 
     @Transactional
-    public List<EnrolmentResponseDto> getMyLecturesEnrolment(Long lectureId) {
-//        List<Enrolment> enrolmentList = enrolmentRepository.findById(lectureId).orElseThrow(
-//                () -> new IllegalArgumentException("존재하지 않는 강의입니다.")
-//        )
+    public List<EnrolmentResponseDto> getMyLecturesEnrolment(Long lectureId, int page, int size, String sortBy, boolean isAsc) {
+
+        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sort = Sort.by(direction, sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+
         Lecture lecture = lectureRepository.findById(lectureId).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 강의입니다.")
         );
-        List<Enrolment> enrolmentList = lecture.getEnrolmentList();
+
+        Page<Enrolment> enrolmentList = enrolmentRepository.findAllByLecture(lecture, pageable);
+        // 페이징처리는 JPA에서 제공해주는 기능
+
+//        List<Enrolment> enrolmentList = lecture.getEnrolmentList(); // 페이징 처리가 불가능하다.
+
         List<EnrolmentResponseDto> result = new ArrayList<>();
         for (Enrolment enrolment : enrolmentList) {
             EnrolmentResponseDto dto = new EnrolmentResponseDto(enrolment.getTutee().getId(), enrolment.getTutee().getNickname());
             result.add(dto);
         }
-//        List<Enrolment> enrolmentList = lecture.getEnrolmentList();
-//        enrolmentList => enrlmentResponseDtoList 로 변환해서 return
-//        return ();
         return result;
     }
+
 }
