@@ -12,6 +12,7 @@ import com.fishbread101.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -45,8 +46,11 @@ public class TuteeController {
 
     //전체 강의 목록 조회
     @GetMapping("/lectures")
-    public List<LectureResponseDto> getAllLectures() {
-        return lectureService.getAllLectures();
+    public Page<LectureResponseDto> getAllLectures(@RequestParam("page") int page,
+                                                   @RequestParam("size") int size,
+                                                   @RequestParam("sortBy") String sortBy,
+                                                   @RequestParam("isAsc") boolean isAsc) {
+        return lectureService.getAllLectures(page-1, size, sortBy, isAsc);
     }
 
     //전체 튜터 목록 조회
@@ -54,6 +58,8 @@ public class TuteeController {
     public List<UserResponseDto> getAllTutors() {
         return userService.getAllTutors();
     }
+
+
 
     //튜터 정보 조회
     @GetMapping("/tutors/{tutorId}")

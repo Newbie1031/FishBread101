@@ -5,6 +5,7 @@ import com.fishbread101.dto.LectureModifyRequestDto;
 import com.fishbread101.dto.LectureRequestDto;
 import com.fishbread101.dto.LectureResponseDto;
 import com.fishbread101.entity.User;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -20,4 +21,5 @@ public interface LectureService {
 
     List<LectureResponseDto> getMyLectures(User user);
 
+    Page<LectureResponseDto> getAllLectures(int i, int size, String sortBy, boolean isAsc);
 }
