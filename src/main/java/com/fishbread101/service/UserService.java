@@ -2,6 +2,7 @@ package com.fishbread101.service;
 
 import com.fishbread101.dto.*;
 import com.fishbread101.entity.User;
+import com.fishbread101.entity.UserRole;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public interface UserService {
 
     List<UserResponseDto> getTuteeList();
 
-    List<UserResponseDto> getAllTutors();
+    List<UserResponseDto> getAllTutors(UserRole userRole, int page, int size, String sortBy, boolean isAsc);
 
     List<UserResponseDto> getPromotionList();
 

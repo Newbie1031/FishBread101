@@ -12,8 +12,11 @@ import com.fishbread101.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
+
+import static com.fishbread101.entity.UserRole.TUTOR;
 
 @RestController
 @RequestMapping("/api/tutee")
@@ -45,15 +48,25 @@ public class TuteeController {
 
     //전체 강의 목록 조회
     @GetMapping("/lectures")
-    public List<LectureResponseDto> getAllLectures() {
-        return lectureService.getAllLectures();
+    public List<LectureResponseDto> getAllLectures(@RequestParam("page") int page,
+                                                   @RequestParam("size") int size,
+                                                   @RequestParam("sortBy") String sortBy,
+                                                   @RequestParam("isAsc") boolean isAsc) {
+        return lectureService.getAllLectures(page-1, size, sortBy, isAsc);
     }
 
     //전체 튜터 목록 조회
     @GetMapping("/tutors")
-    public List<UserResponseDto> getAllTutors() {
-        return userService.getAllTutors();
+    public List<UserResponseDto> getAllTutors(
+        @RequestParam("page") int page,
+        @RequestParam("size") int size,
+        @RequestParam("sortBy") String sortBy,
+        @RequestParam("isAsc") boolean isAsc
+    ) {
+        return userService.getAllTutors(TUTOR,page-1,size,sortBy,isAsc);
     }
+
+
 
     //튜터 정보 조회
     @GetMapping("/tutors/{tutorId}")

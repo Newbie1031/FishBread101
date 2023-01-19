@@ -18,4 +18,5 @@ public class UserResponseDto {
         this.appliedTutor = user.isAppliedTutor();
     }
 
+
 }

@@ -17,6 +17,10 @@ import com.fishbread101.entity.User;
 import com.fishbread101.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -68,9 +72,15 @@ public class UserServiceImpl implements UserService {
 //    전체 튜터 목록 조회
     @Override
     @Transactional
-    public List<UserResponseDto> getAllTutors() {
-        List<User> list = userRepository.findByUserRole(UserRole.TUTOR);
+    public List<UserResponseDto> getAllTutors(UserRole useRole , int page, int size, String sortBy, boolean isAsc) {
+
+        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sort = Sort.by(direction, sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        Page<User> list = userRepository.findByUserRole(UserRole.TUTOR,  pageable);
         List<UserResponseDto> userResponseDtoList = new ArrayList<>();
+
         for (User user : list) {
             userResponseDtoList.add(new UserResponseDto(user));
         }
