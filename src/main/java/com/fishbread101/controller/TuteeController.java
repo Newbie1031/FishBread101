@@ -16,6 +16,8 @@ import org.springframework.data.domain.Page;
 
 import java.util.List;
 
+import static com.fishbread101.entity.UserRole.TUTOR;
+
 @RestController
 @RequestMapping("/api/tutee")
 @RequiredArgsConstructor
@@ -55,8 +57,13 @@ public class TuteeController {
 
     //전체 튜터 목록 조회
     @GetMapping("/tutors")
-    public List<UserResponseDto> getAllTutors() {
-        return userService.getAllTutors();
+    public List<UserResponseDto> getAllTutors(
+        @RequestParam("page") int page,
+        @RequestParam("size") int size,
+        @RequestParam("sortBy") String sortBy,
+        @RequestParam("isAsc") boolean isAsc
+    ) {
+        return userService.getAllTutors(TUTOR,page-1,size,sortBy,isAsc);
     }
 
 
