@@ -29,19 +29,22 @@ import java.util.function.Function;
 public class LectureServiceImpl implements LectureService {
 
     private final LectureRepository lectureRepository;
-    private Page<LectureResponseDto> lectureResponseDtoList;
 
     //모든 강의 조회
     @Transactional(readOnly = true)
     @Override
-    public Page<LectureResponseDto> getAllLectures(int page, int size, String sortBy, boolean isAsc) {
+    public List<LectureResponseDto> getAllLectures(int page, int size, String sortBy, boolean isAsc) {
         // 페이징 처리
         Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
         Sort sort = Sort.by(direction, sortBy);
         Pageable pageable = PageRequest.of(page, size, sort);
 
-        Page<LectureResponseDto> lectureResponseDtoList = new Page<>() {};
         Page<Lecture> lectures = lectureRepository.findAll(pageable);
+        List<LectureResponseDto> lectureResponseDtoList = new ArrayList<>();;
+
+        for (Lecture lecture : lectures) {
+            lectureResponseDtoList.add(new LectureResponseDto(lecture.getTutor().getNickname(), lecture.getImage(), lecture.getDescription(), lecture.getCapacity()));
+        }
 
         return lectureResponseDtoList;
     }

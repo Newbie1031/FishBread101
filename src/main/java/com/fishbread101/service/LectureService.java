@@ -11,8 +11,6 @@ import java.util.List;
 
 public interface LectureService {
 
-    List<LectureResponseDto> getAllLectures();
-
     void createLecture(LectureRequestDto lectureRequestDto, User user);
 
     void updateLecture(Long lectureId, LectureModifyRequestDto lectureRequestDto, User user);
@@ -23,5 +21,5 @@ public interface LectureService {
     // 페이징 처리 전 코드
 //    List<LectureResponseDto> getMyLectures(User user);
 
-    Page<LectureResponseDto> getAllLectures(int i, int size, String sortBy, boolean isAsc);
+    List<LectureResponseDto> getAllLectures(int page, int size, String sortBy, boolean isAsc);
 }

@@ -46,7 +46,7 @@ public class TuteeController {
 
     //전체 강의 목록 조회
     @GetMapping("/lectures")
-    public Page<LectureResponseDto> getAllLectures(@RequestParam("page") int page,
+    public List<LectureResponseDto> getAllLectures(@RequestParam("page") int page,
                                                    @RequestParam("size") int size,
                                                    @RequestParam("sortBy") String sortBy,
                                                    @RequestParam("isAsc") boolean isAsc) {
