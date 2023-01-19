@@ -20,7 +20,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.function.Function;
 
 @Service
 @RequiredArgsConstructor
@@ -31,13 +33,19 @@ public class LectureServiceImpl implements LectureService {
     //모든 강의 조회
     @Transactional(readOnly = true)
     @Override
-    public List<LectureResponseDto> getAllLectures() {
-        List<LectureResponseDto> lectureResponseDtoList = new ArrayList<>();
-        List<Lecture> lectures = lectureRepository.findAll();
+    public List<LectureResponseDto> getAllLectures(int page, int size, String sortBy, boolean isAsc) {
+        // 페이징 처리
+        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sort = Sort.by(direction, sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
 
-        for (Lecture lecture: lectures) {
+        Page<Lecture> lectures = lectureRepository.findAll(pageable);
+        List<LectureResponseDto> lectureResponseDtoList = new ArrayList<>();;
+
+        for (Lecture lecture : lectures) {
             lectureResponseDtoList.add(new LectureResponseDto(lecture.getTutor().getNickname(), lecture.getImage(), lecture.getDescription(), lecture.getCapacity()));
         }
+
         return lectureResponseDtoList;
     }
 
