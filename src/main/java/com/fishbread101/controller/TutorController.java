@@ -7,6 +7,7 @@ import com.fishbread101.service.EnrolmentService;
 import com.fishbread101.service.LectureService;
 import com.fishbread101.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/tutor")
+@PreAuthorize("hasRole('ROLE_TUTOR')")
 public class TutorController {
 
     private final UserService userService;
