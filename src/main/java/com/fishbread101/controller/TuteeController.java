@@ -10,6 +10,7 @@ import com.fishbread101.service.ApplyService;
 import com.fishbread101.service.LectureService;
 import com.fishbread101.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
@@ -21,6 +22,7 @@ import static com.fishbread101.entity.UserRole.TUTOR;
 @RestController
 @RequestMapping("/api/tutee")
 @RequiredArgsConstructor
+@PreAuthorize("hasRole('ROLE_TUTEE')")
 public class TuteeController {
 
     private final UserService userService;

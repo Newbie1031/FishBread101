@@ -1,21 +1,11 @@
 package com.fishbread101.service;
 
-import com.fishbread101.dto.LectureResponseDto;
 import com.fishbread101.dto.ProfileModifyRequestDto;
 import com.fishbread101.dto.ProfileResponseDto;
-import com.fishbread101.entity.*;
-import com.fishbread101.repository.ApplyRepository;
-import com.fishbread101.repository.LectureRepository;
-import com.fishbread101.dto.ProfileModifyRequestDto;
-import com.fishbread101.dto.ProfileResponseDto;
-import com.fishbread101.entity.User;
-import com.fishbread101.repository.ApplyRepository;
-import com.fishbread101.repository.EnrolmentRepository;
-import com.fishbread101.repository.LectureRepository;
 import com.fishbread101.dto.UserResponseDto;
 import com.fishbread101.entity.User;
+import com.fishbread101.entity.UserRole;
 import com.fishbread101.repository.UserRepository;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -60,8 +49,12 @@ public class UserServiceImpl implements UserService {
     // 전체 튜티 목록 조회
     @Override
     @Transactional
-    public List<UserResponseDto> getTuteeList() {
-        List<User> list = userRepository.findByUserRole(UserRole.TUTEE);
+    public List<UserResponseDto> getTuteeList(int page, int size, String sortBy, boolean isAsc) {
+        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sort = Sort.by(direction, sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+        Page<User> list = userRepository.findByUserRole(UserRole.TUTEE, pageable);
+
         List<UserResponseDto> userResponseDtoList = new ArrayList<>();
         for (User user : list) {
             userResponseDtoList.add(new UserResponseDto(user));
